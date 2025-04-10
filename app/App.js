@@ -252,11 +252,8 @@ function ColorWheelScreen() {
         imageWidth={width}
         imageHeight={height}
         minScale={1}
-        maxScale={3}>
-        onDoubleClick=
-        {() => {
-          imageZoomRef.current?.reset();
-        }}
+        maxScale={3}
+        onDoubleClick={() => imageZoomRef.current?.reset()}
         >
         <Image
           style={{ width: width, height: height }}
@@ -351,7 +348,7 @@ function GalleryScreen({ navigation }) {
             imageWidth={width * 0.9}
             imageHeight={height * 0.9}
             minScale={1}
-            maxScale={3}>
+            maxScale={3}
             onDoubleClick=
             {() => {
               imageZoomRef.current?.reset();
