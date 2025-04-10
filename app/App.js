@@ -99,7 +99,7 @@ const theme = {
     defaultImage: require('./assets/modded_home_image.jpg'),
   },
   fonts: {
-    Cinzel: require('./assets/Cinzel-VariableFont_wght.ttf'),
+    Cinzel: require('c:/users/black/GMP_3/assets/Cinzel-VariableFont_wght.ttf'),
   },
   sounds: {
     splash: require('./assets/paladinready.wav'),
