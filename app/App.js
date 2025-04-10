@@ -34,6 +34,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { Audio } from 'expo-av';
+import { images, sounds, music, fonts } from './assets.js'; // static requires
+
 /*
  * UAT MS579 React Native
  *
@@ -73,10 +75,7 @@ const Drawer = createDrawerNavigator();
 
 // theme used across app
 const theme = {
-  font: {
-    primary: 'Cinzel',
-    fallback: 'System',
-  },
+  fonts,
   colors: {
     background: 'black',
     text: 'white',
@@ -84,36 +83,11 @@ const theme = {
     overlay: 'rgba(0, 0, 0, 0.65)',
     overlayStrong: 'rgba(0, 0, 0, 0.75)',
   },
-  images: {
-    splash: require('./assets/splash_image.jpg'),
-    home: require('./assets/modded_home_image.jpg'),
-    helper: require('./assets/paint_warrior_helper.jpg'),
-    colorWheel: require('./assets/double_color_wheel.jpg'),
-    galleryBackground: require('./assets/gallery_monitor.jpg'),
-    aboutBackground: require('./assets/question_image.jpg'),
-    campaignsBackground: require('./assets/modded_home_image.jpg'),
-    warriors: require('./assets/modded_home_image.jpg'),
-    trophyRoom: require('./assets/campaigns_screen_2.jpg'),
-  },
-  campaigns: {
-    defaultImage: require('./assets/modded_home_image.jpg'),
-  },
-  fonts: {
-    Cinzel: require('c:/users/black/GMP_3/assets/Cinzel-VariableFont_wght.ttf'),
-  },
-  sounds: {
-    splash: require('./assets/paladinready.wav'),
-    trophy: require('./assets/trophy-sound.wav'),
-    campaign: require('./assets/tuyessr1.wav'),
-    campaign2: require('./assets/tuyessr3.wav'),
-    campaignRemove: require('./assets/paladinpissd2.wav'),
-    warrior: require('./assets/paladinwhat2.wav'),
-    warriorRemove: require('/assets/explode.wav'),
-  },
-  music: {
-    backgroundMusic: require('./assets/marcriver29-generic-futuristic-heros-theme.mp3'),
-  },
+  images,
+  sounds,
+  music,
 };
+
 
 // global cache for all sound instances
 const loadedSounds = {};
@@ -257,7 +231,7 @@ function ColorWheelScreen() {
         >
         <Image
           style={{ width: width, height: height }}
-          source={require('./assets/double_color_wheel.jpg')}
+          source={theme.images.colorWheel}
           resizeMode="contain"
         />
       </ImageZoom>
@@ -277,7 +251,7 @@ function ColorWheelScreen() {
               justifyContent: 'right',
               alignSelf: 'flex-end',
             }}
-            source={require('./assets/paint_warrior_helper.jpg')}
+            source={theme.images.helper}
           />
         </Pressable>
         {isVisible && (
@@ -300,13 +274,13 @@ function ColorWheelScreen() {
 
 function GalleryScreen({ navigation }) {
   // images multi-dimensional array, including the file and description
-  const images = [
+  const galleryImages = [
     {
-      file: require('./assets/bruce_pain.jpg'),
+      file: theme.images.orks,
       description: 'Bruce and his ride are assembled.',
     },
     {
-      file: require('./assets/some_orks.jpg'),
+      file: theme.images.bruce,
       description: 'Not all of these orks are painted.',
     },
   ];
@@ -319,17 +293,17 @@ function GalleryScreen({ navigation }) {
   // piece of state index, starting at 0, to track the image selected in the array.
   const [index, setIndex] = useState(0);
   // increments the image array index by 1, with a wrap around to start from the beginning once the last index is reached.
-  const goNext = () => setIndex((prev) => (prev + 1) % images.length);
+  const goNext = () => setIndex((prev) => (prev + 1) % galleryImages.length);
   // decrements the image array index to go backward, using 1 + to never go negative, then wrap after last index reached.
   const goPrev = () =>
-    setIndex((prev) => (prev - 1 + images.length) % images.length);
+    setIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
   // renders the gallery display, with pressable arrows for navigation
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
       <ImageBackground
         style={{ flex: 1 }}
         resizeMode="cover"
-        source={require('./assets/gallery_monitor.jpg')}>
+        source={theme.images.galleryBackground}>
         <View
           style={{
             flex: 1,
@@ -356,7 +330,7 @@ function GalleryScreen({ navigation }) {
             >
             <Image
               style={{ width: width, height: height, alignItems: 'center' }}
-              source={images[index].file}
+              source={galleryImages[index].file}
               resizeMode="contain"
             />
           </ImageZoom>
@@ -377,7 +351,7 @@ function GalleryScreen({ navigation }) {
                 justifyContent: 'right',
                 alignSelf: 'flex-end',
               }}
-              source={require('./assets/paint_warrior_helper.jpg')}
+              source={theme.images.helper}
             />
           </Pressable>
           {isVisible && (
@@ -403,7 +377,7 @@ function GalleryScreen({ navigation }) {
               textAlign: 'center',
               marginTop: 10,
             }}>
-            {images[index].description}
+            {galleryImages[index].description}
           </Text>{' '}
           <View
             style={{
@@ -423,7 +397,7 @@ function GalleryScreen({ navigation }) {
                 fontWeight: 'bold',
                 backgroundColor: 'rgba(0,0,0,0.65)',
               }}>
-              {index + 1} / {images.length}
+              {index + 1} / {galleryImages.length}
             </Text>{' '}
             <TouchableOpacity onPress={goNext}>
               <AntDesign name="rightcircle" size={48} color="white" />
@@ -451,7 +425,7 @@ function AboutScreen({ navigation }) {
     <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
       <ImageBackground
         style={{ height: '100%', width: '100%' }}
-        source={require('./assets/question_image.jpg')}>
+        source={theme.images.about}>
         <View
           style={{
             flexDirection: 'row-reverse',
@@ -468,7 +442,7 @@ function AboutScreen({ navigation }) {
                 justifyContent: 'right',
                 alignSelf: 'flex-end',
               }}
-              source={require('./assets/paint_warrior_helper.jpg')}
+              source={theme.images.helper}
             />{' '}
             // paint warrior image
           </Pressable>
@@ -1385,9 +1359,7 @@ export default function App() {
   const [activeCampaign, setActiveCampaign] = useState(null);
   const [ready, setReady] = useState(false);
   const navigationRef = useNavigationContainerRef();
-  const [fontsLoaded] = useFonts({
-    [theme.font.primary]: theme.fonts.Cinzel,
-  });
+  const [fontsLoaded] = useFonts(theme.fonts);
   // preload the sound file
   useEffect(() => {
     const initAudio = async () => {
